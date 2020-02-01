@@ -49,6 +49,7 @@ class ThreadController extends Controller
             'title' => request('title'),
             'body' => request('body'),
             'user_id' => auth()->id(),
+            'channel_id' => request('channel_id'),
         ]);
 
         return redirect($thread->path());
@@ -60,7 +61,7 @@ class ThreadController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function show(Thread $thread)
+    public function show($channelId, Thread $thread)
     {
         return view('threads.show', compact('thread'));
     }
