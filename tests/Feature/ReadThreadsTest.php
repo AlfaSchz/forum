@@ -68,4 +68,20 @@ class ReadThreadsTest extends TestCase
             ->assertStatus(200)
             ->assertSee($reply->body);
     }
+
+    /**
+     * @test
+     */
+    public function a_user_can_filter_threads_by_a_username()
+    {
+        $user = create('App\User', ['name' => 'John Doe']);
+        $this->signIn($user);
+
+        $threadByJohn = create('App\Thread', ['user_id' => auth()->id()]);
+        $threadNotByJohn = create('App\Thread');
+
+        $this->get('/threads?by='. $user->name)
+            ->assertSee($threadByJohn->body)
+            ->assertDontSee($threadNotByJohn->body);
+    }
 }
