@@ -47,9 +47,12 @@
 
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="nav-link" href="/threads">All threads</a></li>
+
                                 @if (auth()->check())
                                     <li><a class="nav-link" href="/threads?by={{ auth()->user()->name }}">My threads</a></li>
                                 @endif
+
+                                <li><a class="nav-link" href="/threads?popular=1">Popular threads</a></li>
                             </ul>
                         </li>
 
