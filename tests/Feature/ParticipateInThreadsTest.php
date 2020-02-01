@@ -5,14 +5,14 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ParticipateInForumTest extends TestCase
+class ParticipateInThreadsTest extends TestCase
 {
     use DatabaseMigrations;
 
     /**
      * @test
      */
-    public function unauthenticated_users_may_not_add_replies_in_the_forum_threads()
+    public function unauthenticated_users_may_not_add_replies_to_a_thread()
     {
         $this->withExceptionHandling();
         $thread = create('App\Thread');
@@ -23,7 +23,7 @@ class ParticipateInForumTest extends TestCase
     /**
      * @test
      */
-    public function an_authenticated_user_may_participate_in_the_forum_threads()
+    public function an_authenticated_user_may_participate_in_a_thread()
     {
         $this->signIn();
 
@@ -34,5 +34,21 @@ class ParticipateInForumTest extends TestCase
 
         $this->get($thread->path())
             ->assertSee($reply->body);
+    }
+
+    /**
+     * @test
+     */
+    public function a_reply_requires_a_body()
+    {
+        $this->withExceptionHandling();
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $reply = make('App\Reply', ['body' => null]);
+
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertSessionHasErrors('body');
     }
 }
