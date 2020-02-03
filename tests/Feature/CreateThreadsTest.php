@@ -26,7 +26,7 @@ class CreateThreadsTest extends TestCase
     /**
  * @test
  */
-    public function an_authenticated_user_can_create_new_threads()
+    public function an_authenticated_user_can_create_new_thread()
     {
         $this->signIn();
 
